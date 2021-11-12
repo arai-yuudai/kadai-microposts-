@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class MicropostsController extends Controller
 {
-      public function index()
+     public function index()
     {
         $data = [];
         if (\Auth::check()) {
@@ -19,12 +19,12 @@ class MicropostsController extends Controller
                 'user' => $user,
                 'microposts' => $microposts,
             ];
-            
         }
 
         // Welcomeビューでそれらを表示
         return view('welcome', $data);
     }
+    
      public function store(Request $request)
     {
         // バリデーション

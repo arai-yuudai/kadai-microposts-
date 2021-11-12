@@ -53,6 +53,18 @@ class UsersController extends Controller
             'users' => $followings,
         ]);
     }
+    /**
+     * このユーザとフォロー中ユーザの投稿に絞り込む。
+     */
+    public function feed_microposts()
+    {
+        // このユーザがフォロー中のユーザのidを取得して配列にする
+        $userIds = $this->followings()->pluck('users.id')->toArray();
+        // このユーザのidもその配列に追加
+        $userIds[] = $this->id;
+        // それらのユーザが所有する投稿に絞り込む
+        return Micropost::whereIn('user_id', $userIds);
+    }
 
     /**
      * ユーザのフォロワー一覧ページを表示するアクション。
@@ -75,6 +87,29 @@ class UsersController extends Controller
         return view('users.followers', [
             'user' => $user,
             'users' => $followers,
+        ]);
+    }
+    
+    
+    
+     public function favorites($id)
+    {
+        
+        
+        // idの値でユーザを検索して取得
+        $user = User::findOrFail($id);
+        
+         // ユーザのお気に入り一覧を取得
+        $favorites = $user->favorites()->paginate(10);
+        
+
+        // 関係するモデルの件数をロード
+        $user->loadRelationshipCounts();
+        
+        // お気に入り一覧ビューでそれらを表示
+        return view('users.favorites', [
+            'user' => $user,
+            'favorites' => $favorites,
         ]);
     }
 }

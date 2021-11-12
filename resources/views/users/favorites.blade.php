@@ -9,8 +9,12 @@
         <div class="col-sm-8">
             {{-- タブ --}}
             @include('users.navtabs')
-            {{-- ユーザ一覧 --}}
-            @include('users.users')
+            {{-- お気に入り一覧 --}}
+            @include('users.favorite')
         </div>
     </div>
 @endsection
+
+
+
+

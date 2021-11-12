@@ -31,4 +31,9 @@ class Micropost extends Model
         // 前のURLへリダイレクトさせる
         return back();
     }
+    
+      public function favorite_users()
+    {
+        return $this->belongsToMany(User::class, 'favorites','micropost_id','user_id')->withTimestamps();
+    }
 }
